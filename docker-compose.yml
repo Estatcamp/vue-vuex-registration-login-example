@@ -1,0 +1,9 @@
+version: '3'
+
+services:
+    screen:
+        build: .
+        command: npm start
+        container_name: login
+        ports:
+            - "80:8080"
