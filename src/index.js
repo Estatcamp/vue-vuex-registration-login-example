@@ -7,9 +7,12 @@ import App from './app/App';
 
 Vue.use(VeeValidate);
 
-// setup fake backend
 import { configureFakeBackend } from './_helpers';
-configureFakeBackend();
+
+// setup fake backend
+if ('development' == process.env.NODE_ENV) {
+    configureFakeBackend();
+}
 
 new Vue({
     el: '#app',

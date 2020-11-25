@@ -13,6 +13,7 @@
                 <span v-else> - <a @click="deleteUser(user.id)" class="text-danger">Delete</a></span>
             </li>
         </ul>
+        <button v-on:click="redirectMe()">Acess system</button>
         <p>
             <router-link to="/login">Logout</router-link>
         </p>
@@ -36,7 +37,10 @@ export default {
         ...mapActions('users', {
             getAllUsers: 'getAll',
             deleteUser: 'delete'
-        })
+        }),
+        redirectMe() {
+            window.location.href=process.env.VUE_APP_REDIRECT_URL
+        }
     }
 };
 </script>
