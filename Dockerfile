@@ -10,3 +10,5 @@ COPY .babelrc .
 RUN [ "npm", "install" ]
 
 COPY . .
+
+EXPOSE 8080
