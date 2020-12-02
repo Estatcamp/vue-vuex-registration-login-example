@@ -1,13 +1,43 @@
 version: '3'
 
 services:
-    screen:
-        build: .
-        command: npm start
-        container_name: login
-        environment:
-            - VUE_APP_REDIRECT_URL=https://google.com
-            - NODE_ENV=development #change tis to production when running outside here
-            - API_URL=http://localhost:4000
-        ports:
-            - "80:8080"
+
+  mongodb:
+    image: mongo:3.6
+    container_name: mongodb-api
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=root
+      - MONGO_INITDB_ROOT_PASSWORD=example
+
+  api:
+    image: estat/login-api-simple
+    container_name: api
+    command: npm start
+    restart: on-failure
+    environment:
+      - MONGODB_URI=mongodb://root:example@mongodb-api:27017/
+      - NODE_ENV=production
+    labels:
+      - "traefik.http.routers.api.rule=Host(`api.docker.localhost`)"
+
+  login:
+    build: .
+    command: npm start
+    container_name: login
+    environment:
+      # - NODE_ENV=development
+      - API_URL=http://api.docker.localhost
+    depends_on:
+      - api
+    labels:
+      - "traefik.http.routers.login.rule=Host(`login.docker.localhost`)"
+      - "traefik.http.middlewares.login.headers.customrequestheaders.Access-Control-Allow-Origin=*.docker.localhost"
+
+  reverse-proxy:
+    image: traefik:v2.3
+    command: --api.insecure=true --providers.docker
+    ports:
+      - "80:80"
+      - "8080:8080"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock

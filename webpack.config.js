@@ -27,8 +27,7 @@ module.exports = {
         new webpack.DefinePlugin({
             // allow access to process.env from within the vue app
             'process.env': {
-                NODE_ENV: JSON.stringify(process.env.NODE_ENV),
-                VUE_APP_REDIRECT_URL: JSON.stringify(process.env.VUE_APP_REDIRECT_URL)
+                NODE_ENV: JSON.stringify(process.env.NODE_ENV)
             }
         })
     ],
