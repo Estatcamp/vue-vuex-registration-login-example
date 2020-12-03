@@ -7,10 +7,12 @@
   },
   "license": "MIT",
   "scripts": {
-    "start": "webpack-dev-server --open --host 0.0.0.0",
+    "start": "npm run build && static-server --open --host 0.0.0.0 --port 8080 dist",
+    "dev": "webpack-dev-server --open --host 0.0.0.0",
     "build": "webpack --mode production"
   },
   "dependencies": {
+    "static-server": "^2.2.1",
     "vee-validate": "^2.2.8",
     "vue": "^2.6.10",
     "vue-router": "^3.1.3",

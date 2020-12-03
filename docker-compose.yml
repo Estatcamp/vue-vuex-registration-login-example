@@ -25,7 +25,6 @@ services:
     command: npm start
     container_name: login
     environment:
-      # - NODE_ENV=development
       - API_URL=http://api.docker.localhost
     depends_on:
       - api
